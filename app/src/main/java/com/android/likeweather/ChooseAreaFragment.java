@@ -108,7 +108,13 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(position);
                     queryCounties();
-                }
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
+                    }
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +131,7 @@ public class ChooseAreaFragment extends Fragment {
     }
 
     /**
-     * 查询全国所有的省，优先从数据库查询，如果没有查询到再去服务器上查询
+     * 查询全国所有的省，优先从数据库查询，如果没有查询到再去服务器上查询。
      */
     private void queryProvinces() {
         titleText.setText("中国");
@@ -146,7 +152,7 @@ public class ChooseAreaFragment extends Fragment {
     }
 
     /**
-     * 查询选中省内所有的市，优先从数据库查询，如果没有查询到再去服务器上查询
+     * 查询选中省内所有的市，优先从数据库查询，如果没有查询到再去服务器上查询。
      */
     private void queryCities() {
         titleText.setText(selectedProvince.getProvinceName());
@@ -244,7 +250,7 @@ public class ChooseAreaFragment extends Fragment {
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("玩命加载中...");
+            progressDialog.setMessage("正在加载...");
             progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();
